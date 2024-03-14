@@ -10,25 +10,47 @@
     From there, I created a helper function called isValid that verifies something is in a database related to an id. It returns a Boolean
     */
 
-    function determineApiFolder($resource) {
+    function routeToApiFolder($method, $resource, $id) {
+        // Define the base API folder path
+        $apiFolder = 'api/';
     
-        // Check the HTTP method and handle the request accordingly
+        // Determine the API folder based on the resource and method
         switch ($resource) {
             case 'quotes':
-                include_once 'api/quotes/';
-                break;
-            case 'categories':
-                include_once 'api/categories/';
+                if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE') {
+                    return $apiFolder . 'quotes/';
+                }
                 break;
             case 'authors':
-                include_once 'api/authors/';
+                if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE') {
+                    return $apiFolder . 'authors/';
+                }
+                break;
+            case 'categories':
+                if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE') {
+                    return $apiFolder . 'categories/';
+                }
                 break;
             default:
-                http_response_code(405); // Method Not Allowed
-                echo json_encode(['message' => 'Method not supported']);
-                break;
+                // Invalid resource
+                return null;
         }
+    
+        // Invalid method for the given resource
+        return null;
     }
     
-    // Call the function to determine the API folder
-    determineApiFolder($resource);
+    // Example usage:
+    $method = $_SERVER['REQUEST_METHOD'];
+    $resource = 'quotes'; // Assuming 'quotes' is the requested resource
+    $id = isset($_GET['id']) ? $_GET['id'] : null;
+    
+    $apiFolder = routeToApiFolder($method, $resource, $id);
+    if ($apiFolder) {
+        // Include the appropriate API file based on the determined folder
+        include_once $apiFolder . 'index.php';
+    } else {
+        // Invalid resource or method
+        http_response_code(404); // Not Found
+        echo json_encode(['message' => 'Invalid API endpoint']);
+    }
