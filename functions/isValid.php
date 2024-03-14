@@ -16,3 +16,9 @@
     This will let you confirm something exists before trying to modify it.
 
     */
+
+    function isValid($id, $model) {
+        $model->id = $id;
+        $result = $model->read_single();
+        return $result;
+    }

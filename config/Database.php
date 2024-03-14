@@ -1,31 +1,31 @@
 <?php
 
     // This connect function is used to connect to PostgreSQL on Render
-
+    
     class Database {
-        private $host;
-        private $port;
-        private $dbname;
-        private $username;
-        private $password;
+        private $DBHOST;
+        private $DBPORT;
+        private $DBNAME;
+        private $DBUSER;
+        private $DBPASS;
         private $conn;
 
         public function __construct() {
-            $this->username = getenv('USERNAME');
-            $this->password = getenv('PASSWORD');
-            $this->dbname = getenv('DBNAME');
-            $this->host = getenv('HOST');
-            $this->port = getenv('PORT');
+            $this->DBUSER = getenv('DBUSER');
+            $this->DBPASS = getenv('DBPASS');
+            $this->DBNAME = getenv('DBNAME');
+            $this->DBHOST = getenv('DBHOST');
+            $this->DBPORT = getenv('DBPORT');
         }
 
         public function connect() {
             if ($this->conn) {
                 return $this->conn;
             } else {
-                $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname};";
+                $dsn = "pgsql:host={$this->DBHOST};port={$this->DBPORT};dbname={$this->DBNAME};";
 
                 try {
-                    $this->conn = new PDO($dsn, $this->username, $this->password);
+                    $this->conn = new PDO($dsn, $this->DBUSER, $this->DBPASS);
                     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     return $this->conn;
                 } catch(PDOException $e) {
@@ -34,11 +34,9 @@
             }
         }
     }
-
-    /*
     
     // PHPAdmin MySQL Connect
-    
+    /*
     class Database {
         // DB Params
         private $host = 'localhost';
@@ -61,5 +59,5 @@
             return $this->conn;
         }
     }
-
     */
+    

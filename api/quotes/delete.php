@@ -13,12 +13,16 @@
     // Get Raw Data
     $data = json_decode(file_get_contents("php://input"));
 
+    if (!isset($data->id)) {
+        echo json_encode(['message' => 'No Quotes Found']);
+    }
+
     // Delete ID
     $quote->id = $data->id;
 
     // Delete
     if($quote->Delete()) {
-        echo json_encode(array('message' => 'Quote Deleted'));
+        echo json_encode(array('message' => 'Quote Deleted', 'id' => $quote->id));
     } else {
-        echo json_encode(array('message' => 'Quote Not Deleted'));
+        echo json_encode(array('message' => 'No Quotes Found'));
     }

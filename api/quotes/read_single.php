@@ -14,7 +14,14 @@
     $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
     // Get Quote
-    $quote->read_single();
+    $result = $quote->read_single();
+
+    if ($result === null) {
+        echo json_encode(['message' => 'No Quotes Found']);
+        exit;
+    }
+
+    $row = $result->fetch(PDO::FETCH_ASSOC);
 
     // Create Array
     $quote_arr = array(

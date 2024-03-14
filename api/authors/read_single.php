@@ -14,7 +14,14 @@
     $author->id = isset($_GET['id']) ? $_GET['id'] : die();
 
     // Get Author
-    $author->read_single();
+    $result = $author->read_single();
+
+    if ($result === null) {
+        echo json_encode(['message' => 'author_id Not Found']);
+        exit;
+    }
+
+    $row = $result->fetch(PDO::FETCH_ASSOC);
 
     // Create Array
     $author_arr = array(

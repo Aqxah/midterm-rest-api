@@ -49,10 +49,17 @@
     // Exectue Query
     $stmt->execute();
 
+    // Check if any Authors
+    if ($stmt->rowCount() === 0 ) {
+      return null;
+    }
+
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Set Properties
     $this->author = $row['author'];
+
+    return $stmt;
     }
 
     // Create Author

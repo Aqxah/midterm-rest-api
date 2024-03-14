@@ -10,8 +10,39 @@
     // Instantiate Quote Object
     $quote = new Quote($db);
 
-    // Quote Query
-    $result = $quote->read();
+    // Function to get quotes by author_id
+    function getQuotesByAuthorId($author_id, $quoteObject) {
+    $result = $quoteObject->getQuotesByAuthorId($author_id);
+    return $result;
+    }
+
+    // Function to get quotes by category_id
+    function getQuotesByCategoryId($category_id, $quoteObject) {
+    $result = $quoteObject->getQuotesByCategoryId($category_id);
+    return $result;
+    }
+
+    // Function to get quotes by author_id && category_id
+    function getQuotesByAuthorAndCategory($author_id, $category_id, $quoteObject) {
+    $result = $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
+    return $result;
+    }
+
+    // Check what is provided
+    if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
+        $author_id = intval($_GET['author_id']);
+        $category_id = intval($_GET['category_id']);
+        $result = getQuotesByAuthorAndCategory($author_id, $category_id, $quote);
+    } elseif (isset($_GET['author_id'])) {
+        $author_id = intval($_GET['author_id']);
+        $result = getQuotesByAuthorId($author_id, $quote);
+    } elseif (isset($_GET['category_id'])) {
+        $category_id = intval($_GET['category_id']);
+        $result = getQuotesByCategoryId($category_id, $quote);
+    } else {
+        $result = $quote->read();
+    }
+
     // Get Row Count
     $num = $result->rowCount();
 
@@ -37,6 +68,6 @@
         echo json_encode($quotes_arr);
 
     } else {
-        echo json_encode(array('message' => 'No Quotes Found'));
+        echo json_encode(['message' => 'No Quotes Found']);
     }
 

@@ -49,10 +49,17 @@
     // Exectue Query
     $stmt->execute();
 
+    // Check if any Category
+    if ($stmt->rowCount() === 0 ) {
+      return null;
+    }
+
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Set Properties
     $this->category = $row['category'];
+
+    return $stmt;
     }
 
     // Create Category

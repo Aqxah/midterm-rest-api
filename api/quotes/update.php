@@ -13,16 +13,15 @@
     // Get Raw Data
     $data = json_decode(file_get_contents("php://input"));
 
-    // Update ID
-    $quote->id = $data->id;
-
-    $quote->quote = $data->quote;
-    $quote->author_id = $data->author_id;
-    $quote->category_id = $data->category_id;
-
-    // Update 
-    if($quote->update()) {
-        echo json_encode(array('message' => 'Quote Updated'));
+    if (!isset($data->id) || !isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
+        echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
-        echo json_encode(array('message' => 'Quote Not Updated'));
+        // Set properties
+        $quote->id = $data->id;
+        $quote->quote = $data->quote;
+        $quote->author_id = $data->author_id;
+        $quote->category_id = $data->category_id;
+
+        // Update 
+        $quote->update();
     }
