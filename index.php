@@ -10,25 +10,20 @@
     From there, I created a helper function called isValid that verifies something is in a database related to an id. It returns a Boolean
     */
 
-    function determineApiFolder() {
-        $method = $_SERVER['REQUEST_METHOD'];
+    function determineApiFolder($resource) {
     
         // Check the HTTP method and handle the request accordingly
-        switch ($method) {
+        switch ($resource) {
             case 'quotes':
-                // Handle GET request
-                include_once 'api/quotes';
+                include_once 'api/quotes/';
                 break;
             case 'categories':
-                // Handle POST request
-                include_once 'api/categories.php';
+                include_once 'api/categories/';
                 break;
-            case 'autors':
-                // Handle PUT request
-                include_once 'api/authors';
+            case 'authors':
+                include_once 'api/authors/';
                 break;
             default:
-                // Handle unsupported HTTP methods
                 http_response_code(405); // Method Not Allowed
                 echo json_encode(['message' => 'Method not supported']);
                 break;
@@ -36,4 +31,4 @@
     }
     
     // Call the function to determine the API folder
-    determineApiFolder();
+    determineApiFolder($resource);
