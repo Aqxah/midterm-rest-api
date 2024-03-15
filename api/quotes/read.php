@@ -46,12 +46,14 @@
     // Get Row Count
     $num = $result->rowCount();
 
+    // Initialize an empty array to store quotes
+    $quotes_arr = array();
+
     // Check if any Quotes
-    if($num > 0) {
-        $quotes_arr = array();
+    if ($num > 0) {
         $quotes_arr['data'] = array();
 
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
 
             $quote_item = array(
@@ -62,12 +64,14 @@
             );
 
             // Push to "data"
-            array_push($quotes_arr['data'], $quote_item);
+            $quotes_arr['data'][] = $quote_item;
         }
-        // Turn to JSON & Output
-        echo json_encode($quotes_arr);
-
     } else {
-        echo json_encode(['message' => 'No Quotes Found']);
+        $quotes_arr['message'] = 'No Quotes Found';
     }
 
+    // Encode the array to JSON
+    $json_data = json_encode($quotes_arr);
+
+    // Return the JSON data
+    echo $json_data;
