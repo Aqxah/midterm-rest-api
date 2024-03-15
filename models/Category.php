@@ -38,7 +38,7 @@
                   ' . $this->table . '
                 WHERE
                   id = ?
-                LIMIT 0,1';
+                LIMIT 1 OFFSET 0';
 
     // Prepare Statement
     $stmt = $this->conn->prepare($query);
