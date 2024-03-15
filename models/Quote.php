@@ -35,8 +35,19 @@
         // Execute Query
         $stmt->execute();
 
+        // Get Row Count
+        $numQuotes = $stmt->rowCount();
+
+        // Check if there are at least 25 quotes
+        if ($numQuotes < 25) {
+            return json_encode(['message' => 'Not enough quotes available']);
+        }
+
+        // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+
+        // Convert data to JSON
+        return json_encode($result);
         }
 
         // Get Quotes By Author_Id
