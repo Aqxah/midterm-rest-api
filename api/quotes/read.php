@@ -10,21 +10,6 @@
     // Instantiate Quote Object
     $quote = new Quote($db);
 
-    // Function to get quotes by author_id
-    function getQuotesByAuthorId($author_id, $quoteObject) {
-        return $quoteObject->getQuotesByAuthorId($author_id);
-    }
-
-    // Function to get quotes by category_id
-    function getQuotesByCategoryId($category_id, $quoteObject) {
-        return $quoteObject->getQuotesByCategoryId($category_id);
-    }
-
-    // Function to get quotes by author_id && category_id
-    function getQuotesByAuthorAndCategory($author_id, $category_id, $quoteObject) {
-        return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
-    }
-
     // Check what is provided
     if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
         $author_id = intval($_GET['author_id']);
@@ -38,6 +23,21 @@
         $result = getQuotesByCategoryId($category_id, $quote);
     } else {
         $result = $quote->read();
+    }
+
+    // Function to get quotes by author_id
+    function getQuotesByAuthorId($author_id, $quoteObject) {
+        return $quoteObject->getQuotesByAuthorId($author_id);
+    }
+
+    // Function to get quotes by category_id
+    function getQuotesByCategoryId($category_id, $quoteObject) {
+        return $quoteObject->getQuotesByCategoryId($category_id);
+    }
+
+    // Function to get quotes by author_id && category_id
+    function getQuotesByAuthorAndCategory($author_id, $category_id, $quoteObject) {
+        return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
     }
 
     // Initialize an empty array to store quotes
