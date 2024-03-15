@@ -35,16 +35,13 @@
         // Execute Query
         $stmt->execute();
 
-        // Get Row Count
-        $numQuotes = $stmt->rowCount();
-
-        // Check if there are at least 25 quotes
-        if ($numQuotes < 25) {
-            return json_encode(['message' => 'Not enough quotes available']);
-        }
-
         // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Check if the result is empty
+        if (empty($result)) {
+            return json_encode(['message' => 'No Quotes Found']);
+        }
 
         // Initialize an empty array to store quotes
         $quotes_arr = array();
@@ -150,9 +147,12 @@
         // Prepare Statement
         $stmt = $this->conn->prepare($query);
 
-        // Bind Category_Id
+        // Bind Category_Id & Author_Id
         $stmt->bindParam(':author_id', $author_id);
         $stmt->bindParam(':category_id', $category_id);
+
+        // Execute Query
+        $stmt->execute();
 
         // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
