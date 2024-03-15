@@ -39,3 +39,15 @@
     function getQuotesByAuthorAndCategory($author_id, $category_id, $quoteObject) {
         return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
     }
+
+    // Fetching quotes
+    $quotes = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if there are at least 25 quotes
+    if (count($quotes) < 25) {
+        echo json_encode(['message' => 'Not enough quotes available']);
+        exit;
+    }
+
+    // Return JSON data
+    echo json_encode($quotes);
