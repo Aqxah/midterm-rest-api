@@ -35,7 +35,7 @@
         // Execute Query
         $stmt->execute();
 
-        $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+        $result = $stmt;
 
         $json = json_encode($result);
 
