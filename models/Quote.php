@@ -35,7 +35,11 @@
         // Execute Query
         $stmt->execute();
 
-        return $stmt;
+        $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+        $json = json_encode($result);
+
+        return $json;
         }
 
         // Get Quotes By Author_Id
