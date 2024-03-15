@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Midterm Rest API</title>
+    </head>
+    <body>
+        <h1>Midterm Rest API Project</h1>
+    </body>
+    </html>
+
 <?php 
     
     // This file will contain the function to determine what api folder needs to be accessed
@@ -38,18 +50,3 @@
             break;
     }
     */
-
-    $requestURI = explode('/', $_SERVER['REQUEST_URI']);
-    $endpoint = end($requestURI);
-
-    switch ($endpoint) {
-        case 'quotes':
-        case 'categories':
-        case 'authors':
-            if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE')
-                require 'api/' . $endpoint . '/';
-            break;
-        default:
-            echo json_encode(array('message' => 'Method Not Supported'));
-            break;
-    }
