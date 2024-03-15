@@ -55,7 +55,7 @@
 
             $quote_item = array(
                 'id' => $quote_id,
-                'quote' => $quote_text, // Fixed: Changed 'quote' to 'quote_text'
+                'quote' => $quote, 
                 'author' => $author_name,
                 'category' => $category_name
             );
