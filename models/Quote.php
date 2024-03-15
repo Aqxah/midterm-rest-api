@@ -35,7 +35,8 @@
         // Execute Query
         $stmt->execute();
 
-        return $stmt;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
         }
 
         // Get Quotes By Author_Id
@@ -63,8 +64,11 @@
         // Execute Query
         $stmt->execute();
 
-        // Return
-        return $stmt;
+        // Fetch data as associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convert data to JSON
+        return json_encode($result);
         }
 
         // Get Quotes By Category_Id
@@ -92,9 +96,12 @@
         // Execute Query
         $stmt->execute();
 
-        // Return
-        return $stmt;
-        }
+        // Fetch data as associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Convert data to JSON
+        return json_encode($result);
+    }
 
         // Get Quotes By author_id && category_id
         public function getQuotesByAuthorAndCategory($author_id, $category_id) {
@@ -120,11 +127,11 @@
         $stmt->bindParam(':author_id', $author_id);
         $stmt->bindParam(':category_id', $category_id);
 
-        // Execute Query
-        $stmt->execute();
+        // Fetch data as associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Return
-        return $stmt;
+        // Convert data to JSON
+        return json_encode($result);
         }
 
         // Get Single Quote

@@ -46,25 +46,26 @@
     // Initialize an empty array to store quotes
     $quotes_arr = array();
 
-    // Check if any Quotes
-    if ($num > 0) {
-        $quotes_arr['data'] = array();
-
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-
-            $quote_item = array(
-                'id' => $quote_id,
-                'quote' => $quote, 
-                'author' => $author_name,
-                'category' => $category_name
-            );
-
-            // Push to "data"
-            $quotes_arr['data'][] = $quote_item;
-        }
-        echo json_encode($quotes_arr);
-    } else {
-        echo json_encode(['message' => 'No Quotes Found']); // Fixed: Return JSON message properly
+    // Check if there are at least 25 quotes
+    if (count($result) < 25) {
+    return json_encode(['message' => 'Not enough quotes available']);
     }
 
+    // Initialize an empty array to store quotes
+    $quotes_arr = array();
+
+    // Loop through the result and add to array
+    foreach ($result as $row) {
+        $quote_item = array(
+            'id' => $row['quote_id'],
+            'quote' => $row['quote'], 
+            'author' => $row['author_name'],
+            'category' => $row['category_name']
+        );
+
+        // Push quote to "data" array
+        $quotes_arr[] = $quote_item;
+    }
+
+    // Return JSON data
+    return json_encode($quotes_arr);
