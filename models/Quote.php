@@ -35,11 +35,7 @@
         // Execute Query
         $stmt->execute();
 
-        $result = $stmt;
-
-        $json = json_encode($result);
-
-        return $json;
+        return $stmt;
         }
 
         // Get Quotes By Author_Id
