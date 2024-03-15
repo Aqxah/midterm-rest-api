@@ -12,18 +12,17 @@
 
     // Function to get quotes by author_id
     function getQuotesByAuthorId($author_id, $quoteObject) {
-    return $quoteObject->getQuotesByAuthorId($author_id);
+        return $quoteObject->getQuotesByAuthorId($author_id);
     }
 
     // Function to get quotes by category_id
     function getQuotesByCategoryId($category_id, $quoteObject) {
-    return $quoteObject->getQuotesByCategoryId($category_id);
+        return $quoteObject->getQuotesByCategoryId($category_id);
     }
 
     // Function to get quotes by author_id && category_id
     function getQuotesByAuthorAndCategory($author_id, $category_id, $quoteObject) {
-    $result = $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
-    return $result;
+        return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
     }
 
     // Check what is provided
@@ -56,7 +55,7 @@
 
             $quote_item = array(
                 'id' => $quote_id,
-                'quote' => $quote,
+                'quote' => $quote_text, // Fixed: Changed 'quote' to 'quote_text'
                 'author' => $author_name,
                 'category' => $category_name
             );
@@ -66,6 +65,6 @@
         }
         echo json_encode($quotes_arr);
     } else {
-        $quotes_arr['message'] = 'No Quotes Found';
+        echo json_encode(['message' => 'No Quotes Found']); // Fixed: Return JSON message properly
     }
 
