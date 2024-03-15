@@ -40,32 +40,29 @@
         return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
     }
 
+    // Fetch data as associative array
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if there are at least 25 quotes
+    if (count($result) < 25) {
+        return json_encode(['message' => 'Not enough quotes available']);
+    }
+
     // Initialize an empty array to store quotes
     $quotes_arr = array();
 
-    // Fetch result
-    if ($result) {
-        // Check if there are at least 25 quotes
-        if ($result->rowCount() < 25) {
-            echo json_encode(['message' => 'Not enough quotes available']);
-            exit(); // Exit script after echoing the message
-        }
+    // Loop through the result and add to array
+    foreach ($result as $row) {
+        $quote_item = array(
+            'id' => $row['quote_id'],
+            'quote' => $row['quote'], 
+            'author' => $row['author_name'],
+            'category' => $row['category_name']
+        );
 
-        // Loop through the result and add to array
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $quote_item = array(
-                'id' => $row['quote_id'],
-                'quote' => $row['quote'], 
-                'author' => $row['author_name'],
-                'category' => $row['category_name']
-            );
-
-            // Push quote to "data" array
-            $quotes_arr[] = $quote_item;
-        }
-
-        // Return JSON data
-        echo json_encode($quotes_arr);
-    } else {
-        echo json_encode(['message' => 'No quotes found']);
+        // Push quote to "data" array
+        $quotes_arr[] = $quote_item;
     }
+
+    // Return JSON data
+    return json_encode($quotes_arr);
