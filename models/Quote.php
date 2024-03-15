@@ -36,7 +36,7 @@
         $stmt->execute();
 
         // Fetch data as associative array
-        $result = $stmt;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Convert data to JSON
         return json_encode($result);
@@ -68,7 +68,7 @@
         $stmt->execute();
 
         // Fetch data as associative array
-        $result = $stmt;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Convert data to JSON
         return json_encode($result);
@@ -100,7 +100,7 @@
         $stmt->execute();
 
         // Fetch data as associative array
-        $result = $stmt;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Convert data to JSON
         return json_encode($result);
@@ -131,7 +131,7 @@
         $stmt->bindParam(':category_id', $category_id);
 
         // Fetch data as associative array
-        $result = $stmt;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Convert data to JSON
         return json_encode($result);

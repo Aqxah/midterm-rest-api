@@ -40,9 +40,6 @@
         return $quoteObject->getQuotesByAuthorAndCategory($author_id, $category_id);
     }
 
-    // Fetch data as associative array
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     // Check if there are at least 25 quotes
     if (count($result) < 25) {
         return json_encode(['message' => 'Not enough quotes available']);
