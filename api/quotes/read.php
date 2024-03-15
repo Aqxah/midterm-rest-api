@@ -12,14 +12,12 @@
 
     // Function to get quotes by author_id
     function getQuotesByAuthorId($author_id, $quoteObject) {
-    $result = $quoteObject->getQuotesByAuthorId($author_id);
-    return $result;
+    return $quoteObject->getQuotesByAuthorId($author_id);
     }
 
     // Function to get quotes by category_id
     function getQuotesByCategoryId($category_id, $quoteObject) {
-    $result = $quoteObject->getQuotesByCategoryId($category_id);
-    return $result;
+    return $quoteObject->getQuotesByCategoryId($category_id);
     }
 
     // Function to get quotes by author_id && category_id
@@ -66,12 +64,8 @@
             // Push to "data"
             $quotes_arr['data'][] = $quote_item;
         }
+        echo json_encode($quotes_arr);
     } else {
         $quotes_arr['message'] = 'No Quotes Found';
     }
 
-    // Encode the array to JSON
-    $json_data = json_encode($quotes_arr);
-
-    // Return the JSON data
-    echo $json_data;
