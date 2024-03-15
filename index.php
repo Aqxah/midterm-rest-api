@@ -8,7 +8,7 @@
     For example, all HTTP methods except for POST need to confirm the id if submitted. That makes it a good place to add a conditional along the lines of: 
     If the method is not equal to POST and the id was submitted, then verify the author actually exists in your database. 
     From there, I created a helper function called isValid that verifies something is in a database related to an id. It returns a Boolean
-    */
+    
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
@@ -32,6 +32,22 @@
         case 'authors':
             if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE')
             require 'api/authors/';
+            break;
+        default:
+            echo json_encode(array('message' => 'Method Not Supported'));
+            break;
+    }
+    */
+
+    $requestURI = explode('/', $_SERVER['REQUEST_URI']);
+    $endpoint = end($requestURI);
+
+    switch ($endpoint) {
+        case 'quotes':
+        case 'categories':
+        case 'authors':
+            if ($method === 'GET' || $method === 'POST' || $method === 'PUT' || $method === 'DELETE')
+                require 'api/' . $endpoint . '/';
             break;
         default:
             echo json_encode(array('message' => 'Method Not Supported'));
