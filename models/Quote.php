@@ -91,8 +91,29 @@
         // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Convert data to JSON
-        return json_encode($result);
+        // Check if the result is empty
+        if (empty($result)) {
+            return json_encode(['message' => 'No Quotes Found']);
+        }
+
+        // Initialize an empty array to store quotes
+        $quotes_arr = array();
+
+        // Loop through the result and add to array
+        foreach ($result as $row) {
+            $quote_item = array(
+                'id' => $row['quote_id'],
+                'quote' => $row['quote'], 
+                'author' => $row['author_name'],
+                'category' => $row['category_name']
+            );
+
+            // Push quote to "data" array
+            $quotes_arr[] = $quote_item;
+        }
+
+        // Return JSON data
+        return json_encode($quotes_arr);
         }
 
         // Get Quotes By Category_Id
@@ -123,9 +144,30 @@
         // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Convert data to JSON
-        return json_encode($result);
-    }
+        // Check if the result is empty
+        if (empty($result)) {
+            return json_encode(['message' => 'No Quotes Found']);
+        }
+
+        // Initialize an empty array to store quotes
+        $quotes_arr = array();
+
+        // Loop through the result and add to array
+        foreach ($result as $row) {
+            $quote_item = array(
+                'id' => $row['quote_id'],
+                'quote' => $row['quote'], 
+                'author' => $row['author_name'],
+                'category' => $row['category_name']
+            );
+
+            // Push quote to "data" array
+            $quotes_arr[] = $quote_item;
+        }
+
+        // Return JSON data
+        return json_encode($quotes_arr);
+        }
 
         // Get Quotes By author_id && category_id
         public function getQuotesByAuthorAndCategory($author_id, $category_id) {
@@ -157,8 +199,29 @@
         // Fetch data as associative array
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Convert data to JSON
-        return json_encode($result);
+        // Check if the result is empty
+        if (empty($result)) {
+            return json_encode(['message' => 'No Quotes Found']);
+        }
+
+        // Initialize an empty array to store quotes
+        $quotes_arr = array();
+
+        // Loop through the result and add to array
+        foreach ($result as $row) {
+            $quote_item = array(
+                'id' => $row['quote_id'],
+                'quote' => $row['quote'], 
+                'author' => $row['author_name'],
+                'category' => $row['category_name']
+            );
+
+            // Push quote to "data" array
+            $quotes_arr[] = $quote_item;
+        }
+
+        // Return JSON data
+        return json_encode($quotes_arr);
         }
 
         // Get Single Quote
