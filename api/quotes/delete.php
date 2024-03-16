@@ -22,4 +22,6 @@
     $quote->id = $data->id;
 
     // Delete
-    $quote->Delete();
+    if(!$quote->delete()) {
+        echo json_encode(['message' => 'No Quotes Found']);
+    }

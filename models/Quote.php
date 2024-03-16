@@ -385,6 +385,9 @@
 
         // Execute the SQL statement
         if ($stmt->execute()) {
+            if($stmt->rowCount() === 0) {
+                echo json_encode(['message' => 'No Quotes Found']);
+            } else {
                 // Fetch the updated quote data
                 $updatedQuote = [
                     'id' => $this->id,
@@ -394,12 +397,9 @@
                 ];
                 echo json_encode($updatedQuote);
                 return true;
-            } else {
-                // No quotes found with the provided ID
-                echo json_encode(['message' => 'No Quotes Found']);
-                return false;
-            }
+            } 
         }
+    }
 
     // Delete Quote
     public function delete() {
@@ -423,7 +423,7 @@
                 return true;
             } else {
                 // No quote found with the provided ID
-                echo json_encode(['message' => 'No Quote Found']);
+                echo json_encode(['message' => 'No Quotes Found']);
                 return false;
             } 
         } else {
