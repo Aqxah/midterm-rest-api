@@ -268,7 +268,7 @@
     // Create Quote
     public function create() {
         // Check if author_id and category_id exist
-        if (empty($this->author_id) || empty($this->category_id)) {
+        if (empty($this->author_id) || empty($this->category_id) || empty($this->quote)) {
             echo json_encode(['message' => 'Missing Required Parameters']);
             return false;
         }
@@ -301,7 +301,7 @@
 
         // Proceed with inserting the quote into the quotes table
         $query = 'INSERT INTO ' . $this->table . '
-                  SET
+                SET
                     quote = :quote,
                     author_id = :author_id,
                     category_id = :category_id';
@@ -317,7 +317,17 @@
 
         // Execute the SQL statement
         if ($stmt->execute()) {
-            echo json_encode(['message' => 'Quote Created']);
+            // Get last inserted ID
+            $quote_id = $this->conn->lastInsertId();
+
+            // Return created quote
+            $created_quote = [
+                'id' => $quote_id,
+                'quote' => $this->quote,
+                'author_id' => $this->author_id,
+                'category_id' => $this->category_id
+            ];
+            echo json_encode($created_quote);
             return true;
         } else {
             echo json_encode(['message' => 'Quote Not Created']);

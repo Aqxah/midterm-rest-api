@@ -79,6 +79,12 @@
 
       // Execute
       if($stmt->execute()) {
+        $category_id = $this->conn->lastInsertId();
+        $createdCategory = [
+          'id' => $category_id,
+          'author' => $this->category
+        ];
+        echo json_encode($createdCategory);
         return true;
       }
 

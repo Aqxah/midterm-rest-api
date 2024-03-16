@@ -1,4 +1,4 @@
-<?php 
+    <?php 
 
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
@@ -20,7 +20,7 @@
         $quote->quote = $data->quote;
         $quote->author_id = $data->author_id;
         $quote->category_id = $data->category_id;
-    
+
         // Create the quote
         $quote->create();
     }

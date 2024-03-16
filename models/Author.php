@@ -79,6 +79,12 @@
 
       // Execute
       if($stmt->execute()) {
+        $author_id = $this->conn->lastInsertId();
+        $createdAuthor = [
+          'id' => $author_id,
+          'author' => $this->author
+        ];
+        echo json_encode($createdAuthor);
         return true;
       }
 
