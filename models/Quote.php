@@ -269,7 +269,7 @@
     public function create() {
         // Check if author_id and category_id exist
         if (empty($this->author_id) || empty($this->category_id) || empty($this->quote)) {
-            return json_encode(['message' => 'Missing Required Parameters']);
+            echo json_encode(['message' => 'Missing Required Parameters']);
         }
 
         // Query to check if the author_id exists in the authors table
@@ -281,7 +281,7 @@
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
             // Return an error message indicating that the author ID was not found
-            return json_encode(['message' => 'author_id Not Found']);
+            echo json_encode(['message' => 'author_id Not Found']);
         }
 
         // Query to check if the category_id exists in the categories table
@@ -293,7 +293,7 @@
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
             // Return an error message indicating that the category ID was not found
-            return json_encode(['message' => 'category_id Not Found']);
+            echo json_encode(['message' => 'category_id Not Found']);
         }
 
         // Proceed with inserting the quote into the quotes table
@@ -324,9 +324,9 @@
                 'author_id' => $this->author_id,
                 'category_id' => $this->category_id
             ];
-            return json_encode($created_quote);
+            echo json_encode($created_quote);
         } else {
-            return json_encode(['message' => 'Quote Not Created']);
+            echo json_encode(['message' => 'Quote Not Created']);
         }
     }
 
