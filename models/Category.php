@@ -87,45 +87,48 @@
         $category_id = $this->conn->lastInsertId();
         $createdCategory = [
           'id' => $category_id,
-          'author' => $this->category
+          'category' => $this->category
         ];
         echo json_encode($createdCategory);
+        return true;
+      } else {
+        echo json_encode(['message' => 'Category Not Created']);
+        return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
 
     // Update category
     public function update() {
-      $query = 'UPDATE ' . $this->table . '
-        SET
-        category = :category
-        WHERE
-          id = :id';
+      // Check if category and id exist
+      if (empty($this->category) || empty($this->id)) {
+          echo json_encode(['message' => 'Missing Required Parameters']);
+          return false;
+      }
 
-      // Prepare
+      // Update query
+      $query = 'UPDATE ' . $this->table . '
+                SET
+                  category = :category
+                WHERE
+                  id = :id';
+
+      // Prepare statement
       $stmt = $this->conn->prepare($query);
 
-      // Clean
+      // Clean and bind parameters
       $this->category = htmlspecialchars(strip_tags($this->category));
       $this->id = htmlspecialchars(strip_tags($this->id));
-
-      // Bind
       $stmt->bindParam(':category', $this->category);
       $stmt->bindParam(':id', $this->id);
 
-      // Execute
-      if($stmt->execute()) {
-        return true;
+      // Execute the query
+      if ($stmt->execute()) {
+          echo json_encode(['message' => 'Category Updated']);
+          return true;
+      } else {
+          echo json_encode(['message' => 'Category Not Updated']);
+          return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
 
     // Delete category

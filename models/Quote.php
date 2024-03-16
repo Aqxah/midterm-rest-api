@@ -269,7 +269,6 @@
     public function create() {
         // Check if author_id, category_id, and quote exist
         if (empty($this->author_id) || empty($this->category_id) || empty($this->quote)) {
-            http_response_code(400); // Bad Request
             echo json_encode(['message' => 'Missing Required Parameters']);
             return false;
         }
@@ -282,8 +281,7 @@
 
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
-            http_response_code(404); // Not Found
-            echo json_encode(['message' => 'Author Not Found']);
+            echo json_encode(['message' => 'author_id Not Found']);
             return false;
         }
 
@@ -295,8 +293,7 @@
 
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
-            http_response_code(404); // Not Found
-            echo json_encode(['message' => 'Category Not Found']);
+            echo json_encode(['message' => 'category_id Not Found']);
             return false;
         }
 
@@ -318,11 +315,9 @@
 
         // Execute the SQL statement
         if ($stmt->execute()) {
-            // Get last inserted ID
             $quote_id = $this->conn->lastInsertId();
 
             // Return created quote
-            http_response_code(201); // Created
             $created_quote = [
                 'id' => $quote_id,
                 'quote' => $this->quote,
@@ -332,98 +327,96 @@
             echo json_encode($created_quote);
             return true;
         } else {
-            http_response_code(500); // Internal Server Error
             echo json_encode(['message' => 'Quote Not Created']);
+            return false;
+        }
+        return json_encode($stmt);
+    }
+
+    // Update Quote
+    public function update() {
+        // Check if id, quote, author_id, and category_id exist
+        if (empty($this->id) || empty($this->quote) || empty($this->author_id) || empty($this->category_id)) {
+            echo json_encode(['message' => 'No Quotes Found']);
+            return false;
+        }
+
+        // Check if author_id exists
+        $authorCheckQuery = "SELECT id FROM authors WHERE id = :author_id";
+        $authorCheckStmt = $this->conn->prepare($authorCheckQuery);
+        $authorCheckStmt->bindParam(':author_id', $this->author_id);
+        $authorCheckStmt->execute();
+
+        if ($authorCheckStmt->rowCount() === 0) {
+            echo json_encode(['message' => 'author_id Not Found']);
+            return false;
+        }
+
+        // Check if category_id exists
+        $categoryCheckQuery = "SELECT id FROM categories WHERE id = :category_id";
+        $categoryCheckStmt = $this->conn->prepare($categoryCheckQuery);
+        $categoryCheckStmt->bindParam(':category_id', $this->category_id);
+        $categoryCheckStmt->execute();
+
+        if ($categoryCheckStmt->rowCount() === 0) {
+            echo json_encode(['message' => 'category_id Not Found']);
+            return false;
+        }
+
+        // Proceed with updating the quote
+        $query = 'UPDATE ' . $this->table . '
+                SET
+                    quote = :quote,
+                    author_id = :author_id,
+                    category_id = :category_id
+                WHERE
+                    id = :id';
+
+        // Prepare the SQL statement
+        $stmt = $this->conn->prepare($query);
+
+        // Clean and bind parameters
+        $this->quote = htmlspecialchars(strip_tags($this->quote));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':quote', $this->quote);
+        $stmt->bindParam(':author_id', $this->author_id);
+        $stmt->bindParam(':category_id', $this->category_id);
+        $stmt->bindParam(':id', $this->id);
+
+        // Execute the SQL statement
+        if ($stmt->execute()) {
+            echo json_encode(['message' => 'Quote Updated']);
+            return true;
+        } else {
+            echo json_encode(['message' => 'No Quotes Found']);
             return false;
         }
     }
 
-        // Update Quote
-        public function update() {
-            // Check if author_id and category_id exist
-            if (!empty($this->author_id) && !empty($this->category_id)) {
-                // Check if author_id exists
-                $authorCheckQuery = "SELECT id FROM authors WHERE id = :author_id";
-                $authorCheckStmt = $this->conn->prepare($authorCheckQuery);
-                $authorCheckStmt->bindParam(':author_id', $this->author_id);
-                $authorCheckStmt->execute();
+    // Delete Quote
+    public function delete() {
+        // Query
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
-                if ($authorCheckStmt->rowCount() === 0) {
-                    // Return an error message indicating that the author ID was not found
-                    echo json_encode(['message' => 'author_id Not Found']);
-                    return false;
-                }
+        // Prepare
+        $stmt = $this->conn->prepare($query);
 
-                // Check if category_id exists
-                $categoryCheckQuery = "SELECT id FROM categories WHERE id = :category_id";
-                $categoryCheckStmt = $this->conn->prepare($categoryCheckQuery);
-                $categoryCheckStmt->bindParam(':category_id', $this->category_id);
-                $categoryCheckStmt->execute();
+        // Clean
+        $this->id = htmlspecialchars(strip_tags($this->id));
 
-                if ($categoryCheckStmt->rowCount() === 0) {
-                    // Return an error message indicating that the category ID was not found
-                    echo json_encode(['message' => 'category_id Not Found']);
-                    return false;
-                }
-            }
-            // Proceed with updating the quote
-            $query = 'UPDATE ' . $this->table . '
-              SET
-                quote = :quote,
-                author_id = :author_id,
-                category_id = :category_id
-              WHERE
-                id = :id';
-      
-            // Prepare the SQL statement
-            $stmt = $this->conn->prepare($query);
-      
-            // Clean and bind parameters
-            $this->quote = htmlspecialchars(strip_tags($this->quote));
-            $this->author_id = htmlspecialchars(strip_tags($this->author_id));
-            $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-            $this->id = htmlspecialchars(strip_tags($this->id));
-    
-            $stmt->bindParam(':quote', $this->quote);
-            $stmt->bindParam(':author_id', $this->author_id);
-            $stmt->bindParam(':category_id', $this->category_id);
-            $stmt->bindParam(':id', $this->id);
-      
-            // Execute the SQL statement
-            if($stmt->execute()) {
-                echo json_encode(['message' => 'Quote Updated']);
+        // Bind
+        $stmt->bindParam(':id', $this->id);
+
+        // Execute
+        if($stmt->execute()) {
+            if ($stmt->rowCount() > 0 ) {
                 return true;
             } else {
-                echo json_encode(['message' => 'No Quotes Found']);
                 return false;
-            }
-        }
-
-        // Delete Quote
-        public function delete() {
-            // Query
-            $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
-    
-            // Prepare
-            $stmt = $this->conn->prepare($query);
-    
-            // Clean
-            $this->id = htmlspecialchars(strip_tags($this->id));
-    
-            // Bind
-            $stmt->bindParam(':id', $this->id);
-    
-            // Execute
-            if($stmt->execute()) {
-                if ($stmt->rowCount() > 0 ) {
-                    return true;
-                } else {
-                    echo json_encode(['message' => 'No Quotes Found']);
-                    return false;
-                } 
-            } else {
-                printf("Error: %s. \n", $stmt->error);
-                return false;
-            }
+            } 
+        } else {
+            printf("Error: %s. \n", $stmt->error);
+            return false;
         }
     }
+}

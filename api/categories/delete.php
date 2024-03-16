@@ -15,6 +15,7 @@
 
     if (!isset($data->id)) {
         echo json_encode(['message' => 'No Category Found']);
+        exit;
     }
 
     // Update ID
@@ -22,7 +23,7 @@
 
     // Delete
     $result = $category->delete();
-    if($result) {
+    if($result !== false) {
         echo json_encode(['message' => 'Category Deleted', 'id' => $category->id]);
     } else {
         echo json_encode(['message' => 'Category Not Deleted']);

@@ -1,4 +1,4 @@
-    <?php 
+<?php 
 
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
@@ -22,5 +22,6 @@
         $quote->category_id = $data->category_id;
 
         // Create the quote
-        $quote->create();
+        $createdQuote = $quote->create();
+        return json_encode($createdQuote);
     }

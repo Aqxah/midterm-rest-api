@@ -13,14 +13,15 @@
     // Get Raw Data
     $data = json_decode(file_get_contents("php://input"));
 
-    // Update ID
-    $author->id = $data->id;
-
-    $author->author = $data->author;
-
-    // Update 
-    if($author->update()) {
-        echo json_encode(array('message' => 'Author Updated'));
+    // Check if the id and author fields are set
+    if (!isset($data->id) || !isset($data->author)) {
+        echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
-        echo json_encode(array('message' => 'Author Not Updated'));
+        // Set properties
+        $author->id = $data->id;
+        $author->author = $data->author;
+
+        // Update the author
+        $updateAuthor = $author->update();
+        return json_encode($updateAuthor);
     }

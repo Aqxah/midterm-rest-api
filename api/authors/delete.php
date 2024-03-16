@@ -15,6 +15,7 @@
 
     if (!isset($data->id)) {
         echo json_encode(['message' => 'No Author Found']);
+        exit;
     }
 
     // Delete ID
@@ -22,7 +23,7 @@
 
     // Delete
     $result = $author->delete();
-    if($result) {
+    if($result !== false) {
         echo json_encode(['message' => 'Author Deleted', 'id' => $author->id]);
     } else {
         echo json_encode(['message' => 'Author Not Deleted']);

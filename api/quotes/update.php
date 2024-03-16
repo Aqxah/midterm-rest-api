@@ -23,5 +23,6 @@
         $quote->category_id = $data->category_id;
 
         // Update 
-        $quote->update();
+        $updateQuote = $quote->update();
+        return json_encode($updateQuote);
     }

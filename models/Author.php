@@ -68,6 +68,7 @@
         echo json_encode(['message' => 'Missing Required Parameters']);
         return false;
       }
+
       $query = 'INSERT INTO ' . $this->table . '
         SET
           author = :author';
@@ -89,42 +90,45 @@
           'author' => $this->author
         ];
         echo json_encode($createdAuthor);
+        return true;
+      } else {
+        echo json_encode(['message' => 'Author Not Created']);
+        return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
 
-    // Update Author
+    // Update author
     public function update() {
-      $query = 'UPDATE ' . $this->table . '
-        SET
-          author = :author
-        WHERE
-          id = :id';
+      // Check if author and id exist
+      if (empty($this->author) || empty($this->id)) {
+          echo json_encode(['message' => 'Missing Required Parameters']);
+          return false;
+      }
 
-      // Prepare
+      // Update query
+      $query = 'UPDATE ' . $this->table . '
+                SET
+                  author = :author
+                WHERE
+                  id = :id';
+
+      // Prepare statement
       $stmt = $this->conn->prepare($query);
 
-      // Clean
+      // Clean and bind parameters
       $this->author = htmlspecialchars(strip_tags($this->author));
       $this->id = htmlspecialchars(strip_tags($this->id));
-
-      // Bind
       $stmt->bindParam(':author', $this->author);
       $stmt->bindParam(':id', $this->id);
 
-      // Execute
-      if($stmt->execute()) {
-        return true;
+      // Execute the query
+      if ($stmt->execute()) {
+          echo json_encode(['message' => 'Author Updated']);
+          return true;
+      } else {
+          echo json_encode(['message' => 'Author Not Updated']);
+          return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
 
     // Delete Author

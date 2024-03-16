@@ -13,11 +13,11 @@
     // Get Raw Data
     $data = json_decode(file_get_contents("php://input"));
 
-    $author->author = $data->author;
-
-    // Create 
-    if($author->create()) {
-        echo json_encode(array('message' => 'Author Created', 'id' => $author->id));
+    // Check if the author field is set
+    if (!isset($data->author)) {
+        echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
-        echo json_encode(array('message' => 'Author Not Created'));
+        $author->author = $data->author;
+        $createdAuthor = $author->create();
     }
+    return json_encode($createdAuthor);
