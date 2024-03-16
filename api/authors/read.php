@@ -16,11 +16,10 @@
     $num = $result->rowCount();
 
     // Check if any Authors
-    if($num > 0) {
+    if ($num > 0) {
         $authors_arr = array();
-        $authors_arr['data'] = array();
 
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
 
             $author_item = array(
@@ -29,12 +28,12 @@
             );
 
             // Push to "data"
-            array_push($authors_arr['data'], $author_item);
+            array_push($authors_arr, $author_item);
         }
+
         http_response_code(200);
         // Turn to JSON & Output
         echo json_encode($authors_arr);
-
     } else {
         http_response_code(404);
         echo json_encode(array('message' => 'No Authors Found'));
