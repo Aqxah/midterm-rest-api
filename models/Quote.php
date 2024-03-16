@@ -267,9 +267,11 @@
 
     // Create Quote
     public function create() {
-        // Check if author_id and category_id exist
+        // Check if author_id, category_id, and quote exist
         if (empty($this->author_id) || empty($this->category_id) || empty($this->quote)) {
+            http_response_code(400); // Bad Request
             echo json_encode(['message' => 'Missing Required Parameters']);
+            return false;
         }
 
         // Query to check if the author_id exists in the authors table
@@ -280,8 +282,9 @@
 
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
-            // Return an error message indicating that the author ID was not found
-            echo json_encode(['message' => 'author_id Not Found']);
+            http_response_code(404); // Not Found
+            echo json_encode(['message' => 'Author Not Found']);
+            return false;
         }
 
         // Query to check if the category_id exists in the categories table
@@ -292,8 +295,9 @@
 
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
-            // Return an error message indicating that the category ID was not found
-            echo json_encode(['message' => 'category_id Not Found']);
+            http_response_code(404); // Not Found
+            echo json_encode(['message' => 'Category Not Found']);
+            return false;
         }
 
         // Proceed with inserting the quote into the quotes table
@@ -318,6 +322,7 @@
             $quote_id = $this->conn->lastInsertId();
 
             // Return created quote
+            http_response_code(201); // Created
             $created_quote = [
                 'id' => $quote_id,
                 'quote' => $this->quote,
@@ -325,8 +330,11 @@
                 'category_id' => $this->category_id
             ];
             echo json_encode($created_quote);
+            return true;
         } else {
+            http_response_code(500); // Internal Server Error
             echo json_encode(['message' => 'Quote Not Created']);
+            return false;
         }
     }
 

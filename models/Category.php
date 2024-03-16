@@ -64,6 +64,11 @@
 
     // Create Category
     public function create() {
+      if (empty($this->category)) {
+        echo json_encode(['message' => 'Missing Required Parameters']);
+        return false;
+      }
+      
       $query = 'INSERT INTO ' . $this->table . '
         SET
           category = :category';

@@ -17,7 +17,7 @@
 
     // Create 
     if($author->create()) {
-        echo json_encode(array('message' => 'Author Created'));
+        echo json_encode(array('message' => 'Author Created', 'id' => $author->id));
     } else {
         echo json_encode(array('message' => 'Author Not Created'));
     }

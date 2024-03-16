@@ -64,6 +64,10 @@
 
     // Create Author
     public function create() {
+      if (empty($this->author)) {
+        echo json_encode(['message' => 'Missing Required Parameters']);
+        return false;
+      }
       $query = 'INSERT INTO ' . $this->table . '
         SET
           author = :author';
