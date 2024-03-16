@@ -123,9 +123,14 @@
 
       // Execute the query
       if ($stmt->execute()) {
-          echo json_encode(['message' => 'Category Updated']);
-          return true;
-      } else {
+        // Fetch the updated category data
+        $updatedCategory = [
+            'id' => $this->id,
+            'category' => $this->category
+        ];
+        echo json_encode($updatedCategory);
+        return true;
+        } else {
           echo json_encode(['message' => 'Category Not Updated']);
           return false;
       }
@@ -145,18 +150,18 @@
       // Bind
       $stmt->bindParam(':id', $this->id);
 
-    // Execute
-    if($stmt->execute()) {
-      if($stmt->rowCount() > 0) {
-          // Category deleted successfully, return JSON response with deleted ID
-          return json_encode(['id' => $this->id]);
+      // Execute
+      if($stmt->execute()) {
+        if($stmt->rowCount() > 0) {
+            // Category deleted successfully, return JSON response with deleted ID
+            return json_encode(['id' => $this->id]);
         } else {
-          // No category found with the provided ID
-          return json_encode(['message' => 'No Category Found']);
+            // No Category found with the provided ID
+            return json_encode(['message' => 'No Category Found']);
         }
-      } else {
+    } else {
         // Error occurred during execution
         return json_encode(['message' => 'Error deleting category']);
-      }
-    } 
+    }
   }
+}

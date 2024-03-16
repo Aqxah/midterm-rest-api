@@ -123,11 +123,16 @@
 
       // Execute the query
       if ($stmt->execute()) {
-          echo json_encode(['message' => 'Author Updated']);
-          return true;
+        // Fetch the updated author data
+        $updatedAuthor = [
+            'id' => $this->id,
+            'author' => $this->author
+        ];
+        echo json_encode($updatedAuthor);
+        return true;
       } else {
-          echo json_encode(['message' => 'Author Not Updated']);
-          return false;
+        echo json_encode(['message' => 'Author Not Updated']);
+        return false;
       }
     }
 
@@ -154,9 +159,9 @@
             // No author found with the provided ID
             return json_encode(['message' => 'No Author Found']);
         }
-      } else {
-          // Error occurred during execution
-          return json_encode(['message' => 'Error deleting author']);
-      }
-    } 
+    } else {
+        // Error occurred during execution
+        return json_encode(['message' => 'Error deleting author']);
+    }
   }
+}

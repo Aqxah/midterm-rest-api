@@ -337,7 +337,7 @@
     public function update() {
         // Check if id, quote, author_id, and category_id exist
         if (empty($this->id) || empty($this->quote) || empty($this->author_id) || empty($this->category_id)) {
-            echo json_encode(['message' => 'No Quotes Found']);
+            echo json_encode(['message' => 'Missing Required Parameters']);
             return false;
         }
 
@@ -385,10 +385,24 @@
 
         // Execute the SQL statement
         if ($stmt->execute()) {
-            echo json_encode(['message' => 'Quote Updated']);
-            return true;
+            // Check if any rows were affected
+            if ($stmt->rowCount() > 0) {
+                // Fetch the updated quote data
+                $updatedQuote = [
+                    'id' => $this->id,
+                    'quote' => $this->quote,
+                    'author_id' => $this->author_id,
+                    'category_id' => $this->category_id
+                ];
+                return $updatedQuote;
+            } else {
+                // No quotes found with the provided ID
+                echo json_encode(['message' => 'No Quotes Found']);
+                return false;
+            }
         } else {
-            echo json_encode(['message' => 'No Quotes Found']);
+            // Error occurred during execution
+            echo json_encode(['message' => 'Error updating quote']);
             return false;
         }
     }
@@ -410,13 +424,15 @@
         // Execute
         if($stmt->execute()) {
             if ($stmt->rowCount() > 0 ) {
-                return true;
+                // Quote deleted successfully, return JSON response with deleted ID
+                return json_encode(['id' => $this->id]);
             } else {
-                return false;
+                // No quote found with the provided ID
+                return json_encode(['message' => 'No Quote Found']);
             } 
         } else {
-            printf("Error: %s. \n", $stmt->error);
-            return false;
+            // Error occurred during execution
+            return json_encode(['message' => 'Error deleting quote']);
         }
     }
 }
