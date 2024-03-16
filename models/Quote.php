@@ -385,8 +385,6 @@
 
         // Execute the SQL statement
         if ($stmt->execute()) {
-            // Check if any rows were affected
-            if ($stmt->rowCount() > 0) {
                 // Fetch the updated quote data
                 $updatedQuote = [
                     'id' => $this->id,
@@ -394,18 +392,14 @@
                     'author_id' => $this->author_id,
                     'category_id' => $this->category_id
                 ];
-                return $updatedQuote;
+                echo json_encode($updatedQuote);
+                return true;
             } else {
                 // No quotes found with the provided ID
                 echo json_encode(['message' => 'No Quotes Found']);
                 return false;
             }
-        } else {
-            // Error occurred during execution
-            echo json_encode(['message' => 'Error updating quote']);
-            return false;
         }
-    }
 
     // Delete Quote
     public function delete() {
@@ -425,14 +419,16 @@
         if($stmt->execute()) {
             if ($stmt->rowCount() > 0 ) {
                 // Quote deleted successfully, return JSON response with deleted ID
-                return json_encode(['id' => $this->id]);
+                echo json_encode(['id' => $this->id]);
+                return true;
             } else {
                 // No quote found with the provided ID
-                return json_encode(['message' => 'No Quote Found']);
+                echo json_encode(['message' => 'No Quote Found']);
+                return false;
             } 
         } else {
             // Error occurred during execution
-            return json_encode(['message' => 'Error deleting quote']);
+            echo json_encode(['message' => 'Error deleting quote']);
         }
     }
 }

@@ -22,9 +22,4 @@
     $quote->id = $data->id;
 
     // Delete
-    $result = $quote->Delete();
-    if($result !== false) {
-        echo json_encode(['message' => 'Quote Deleted', 'id' => $quote->id]);
-    } else {
-        echo json_encode(['message' => 'No Quotes Found']);
-    }
+    $quote->Delete();

@@ -64,10 +64,10 @@
 
     // Create Author
     public function create() {
-      if (empty($this->author)) {
+      if (empty($this->author) || empty($this->id)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
         return false;
-      }
+    }
 
       $query = 'INSERT INTO ' . $this->table . '
         SET
@@ -154,14 +154,16 @@
       if($stmt->execute()) {
         if($stmt->rowCount() > 0) {
             // Author deleted successfully, return JSON response with deleted ID
-            return json_encode(['id' => $this->id]);
+            echo json_encode(['id' => $this->id]);
+            return true;
         } else {
             // No author found with the provided ID
-            return json_encode(['message' => 'No Author Found']);
+            echo json_encode(['message' => 'No Author Found']);
+            return false;
         }
     } else {
         // Error occurred during execution
-        return json_encode(['message' => 'Error deleting author']);
+        echo json_encode(['message' => 'Error deleting author']);
     }
   }
 }

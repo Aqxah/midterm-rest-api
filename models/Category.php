@@ -64,10 +64,10 @@
 
     // Create Category
     public function create() {
-      if (empty($this->category)) {
+      if (empty($this->category) || empty($this->id)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
         return false;
-      }
+    }
 
       $query = 'INSERT INTO ' . $this->table . '
         SET
@@ -154,14 +154,16 @@
       if($stmt->execute()) {
         if($stmt->rowCount() > 0) {
             // Category deleted successfully, return JSON response with deleted ID
-            return json_encode(['id' => $this->id]);
+            echo json_encode(['id' => $this->id]);
+            return true;
         } else {
             // No Category found with the provided ID
-            return json_encode(['message' => 'No Category Found']);
+            echo json_encode(['message' => 'No Category Found']);
+            return false;
         }
     } else {
         // Error occurred during execution
-        return json_encode(['message' => 'Error deleting category']);
+        echo json_encode(['message' => 'Error deleting category']);
     }
   }
 }
