@@ -68,7 +68,7 @@
         echo json_encode(['message' => 'Missing Required Parameters']);
         return false;
       }
-      
+
       $query = 'INSERT INTO ' . $this->table . '
         SET
           category = :category';
@@ -144,13 +144,17 @@
 
       // Execute
       if($stmt->execute()) {
-        return true;
+        if($stmt->rowCount() > 0) {
+          $deletedCategory = ['id' => $this->id];
+          echo json_encode($deletedCategory);
+          return true;
+        } else {
+          echo json_encode(['message' => 'No Category Found']);
+          return false;
+        }
+      } else {
+        printf("Error: %s. \n", $stmt->error);
+        return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
-
   }

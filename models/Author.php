@@ -143,13 +143,18 @@
 
       // Execute
       if($stmt->execute()) {
-        return true;
+        if($stmt->rowCount() > 0) {
+          $deletedAuthor = ['id' => $this->id];
+          echo json_encode($deletedAuthor);
+          return true;
+        } else {
+          echo json_encode(['message' => 'No Author Found']);
+          return false;
+        }
+      } else {
+        printf("Error: %s. \n", $stmt->error);
+        return false;
       }
-
-      // Print Error If Goes Wrong
-      printf("Error: %s. \n", $stmt->error);
-
-      return false;
     }
 
   }

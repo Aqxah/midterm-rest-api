@@ -416,15 +416,14 @@
             // Execute
             if($stmt->execute()) {
                 if ($stmt->rowCount() > 0 ) {
-            return true;
+                    return true;
+                } else {
+                    echo json_encode(['message' => 'No Quotes Found']);
+                    return false;
+                } 
             } else {
-                echo json_encode(['message' => 'No Quotes Found']);
-            }
-    
-            // Print Error If Goes Wrong
-            printf("Error: %s. \n", $stmt->error);
-    
-            return false;
+                printf("Error: %s. \n", $stmt->error);
+                return false;
             }
         }
     }
