@@ -84,8 +84,7 @@
           'id' => $author_id,
           'author' => $this->author
         ];
-        echo json_encode($createdAuthor);
-        return true;
+        return json_encode($createdAuthor);
       }
 
       // Print Error If Goes Wrong

@@ -84,8 +84,7 @@
           'id' => $category_id,
           'author' => $this->category
         ];
-        echo json_encode($createdCategory);
-        return true;
+        return json_encode($createdCategory);
       }
 
       // Print Error If Goes Wrong
