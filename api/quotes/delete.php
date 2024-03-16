@@ -15,6 +15,7 @@
 
     if (!isset($data->id)) {
         echo json_encode(['message' => 'No Quotes Found']);
+        exit;
     }
 
     // Delete ID

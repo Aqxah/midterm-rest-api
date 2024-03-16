@@ -142,19 +142,18 @@
       // Bind
       $stmt->bindParam(':id', $this->id);
 
-      // Execute
-      if($stmt->execute()) {
-        if($stmt->rowCount() > 0) {
-          $deletedCategory = ['id' => $this->id];
-          echo json_encode($deletedCategory);
-          return true;
+    // Execute
+    if($stmt->execute()) {
+      if($stmt->rowCount() > 0) {
+          // Category deleted successfully, return JSON response with deleted ID
+          return json_encode(['id' => $this->id]);
         } else {
-          echo json_encode(['message' => 'No Category Found']);
-          return false;
+          // No category found with the provided ID
+          return json_encode(['message' => 'No Category Found']);
         }
       } else {
-        printf("Error: %s. \n", $stmt->error);
-        return false;
+        // Error occurred during execution
+        return json_encode(['message' => 'Error deleting category']);
       }
-    }
+    } 
   }

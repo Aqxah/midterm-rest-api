@@ -418,7 +418,6 @@
                 if ($stmt->rowCount() > 0 ) {
                     return true;
                 } else {
-                    echo json_encode(['message' => 'No Quotes Found']);
                     return false;
                 } 
             } else {
