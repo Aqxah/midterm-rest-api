@@ -416,14 +416,14 @@
             // Execute
             if($stmt->execute()) {
                 if ($stmt->rowCount() > 0 ) {
-                    $deletedQuote = ['id' => $this->id];
-                    return $deletedQuote;
+                    return true;
                 } else {
-                    return null;
+                    echo json_encode(['message' => 'No Quotes Found']);
+                    return false;
                 } 
             } else {
                 printf("Error: %s. \n", $stmt->error);
-                return null;
+                return false;
             }
         }
     }

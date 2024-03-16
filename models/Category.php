@@ -145,12 +145,15 @@
     // Execute
     if($stmt->execute()) {
       if($stmt->rowCount() > 0) {
-          return $this->id;
+          // Category deleted successfully, return JSON response with deleted ID
+          return json_encode(['id' => $this->id]);
         } else {
-          return null;
+          // No category found with the provided ID
+          return json_encode(['message' => 'No Category Found']);
         }
       } else {
-        return null;
+        // Error occurred during execution
+        return json_encode(['message' => 'Error deleting category']);
       }
-    }
+    } 
   }
