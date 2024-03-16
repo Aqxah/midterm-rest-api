@@ -416,13 +416,14 @@
             // Execute
             if($stmt->execute()) {
                 if ($stmt->rowCount() > 0 ) {
-                    return true;
+                    $deletedQuote = ['id' => $this->id];
+                    return $deletedQuote;
                 } else {
-                    return false;
+                    return null;
                 } 
             } else {
                 printf("Error: %s. \n", $stmt->error);
-                return false;
+                return null;
             }
         }
     }

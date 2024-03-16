@@ -144,15 +144,12 @@
       // Execute
       if($stmt->execute()) {
         if($stmt->rowCount() > 0) {
-            // Author deleted successfully, return JSON response with deleted ID
-            return json_encode(['id' => $this->id]);
+            return $this->id;
+          } else {
+            return null;
+          }
         } else {
-            // No author found with the provided ID
-            return json_encode(['message' => 'No Author Found']);
+          return null;
         }
-      } else {
-          // Error occurred during execution
-          return json_encode(['message' => 'Error deleting author']);
       }
-    } 
-  }
+    }
