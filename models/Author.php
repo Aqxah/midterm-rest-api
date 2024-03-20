@@ -64,38 +64,36 @@
 
     // Create Author
     public function create() {
-      if (!isset($this->author) || !isset($this->id)) {
-        echo json_encode(['message' => 'Missing Required Parameters']);
-        return false;
-    }
-
+      // Check if the author field is set
+      if (!isset($this->author)) {
+          return false; // Return false if author field is not set
+      }
+  
       $query = 'INSERT INTO ' . $this->table . '
-        SET
-          author = :author';
-
+              SET
+                author = :author';
+  
       // Prepare
       $stmt = $this->conn->prepare($query);
-
+  
       // Clean
       $this->author = htmlspecialchars(strip_tags($this->author));
-
+  
       // Bind
       $stmt->bindParam(':author', $this->author);
-
+  
       // Execute
-      if($stmt->execute()) {
-        $author_id = $this->conn->lastInsertId();
-        $createdAuthor = [
-          'id' => $author_id,
-          'author' => $this->author
-        ];
-        echo json_encode($createdAuthor);
-        return true;
+      if ($stmt->execute()) {
+          $author_id = $this->conn->lastInsertId();
+          $createdAuthor = [
+              'id' => $author_id,
+              'author' => $this->author
+          ];
+          return $createdAuthor;
       } else {
-        echo json_encode(['message' => 'Author Not Created']);
-        return false;
+          return false; // Return false if author is not created
       }
-    }
+  }
 
     // Update author
     public function update() {

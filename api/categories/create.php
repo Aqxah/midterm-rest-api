@@ -21,8 +21,8 @@
         $createdCategory = $category->create();
     
         if ($createdCategory) {
-            echo json_encode(['id' => $createdCategory['id'], 'category' => $createdCategory['category']]);
+            echo json_encode($createdCategory);
         } else {
-                echo json_encode(['message' => 'Not Created']);
-            }   
+            echo json_encode(['message' => 'Not Created']);
         }
+    }

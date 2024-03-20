@@ -330,7 +330,6 @@
             echo json_encode(['message' => 'Quote Not Created']);
             return false;
         }
-        return json_encode($stmt);
     }
 
     // Update Quote

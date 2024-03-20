@@ -64,38 +64,36 @@
 
     // Create Category
     public function create() {
-      if (empty($this->category) || empty($this->id)) {
-        echo json_encode(['message' => 'Missing Required Parameters']);
-        return false;
-    }
-
+      // Check if the category field is set
+      if (!isset($this->category)) {
+          return false; // Return false if category field is not set
+      }
+  
       $query = 'INSERT INTO ' . $this->table . '
-        SET
-          category = :category';
-
+              SET
+                category = :category';
+  
       // Prepare
       $stmt = $this->conn->prepare($query);
-
+  
       // Clean
       $this->category = htmlspecialchars(strip_tags($this->category));
-
+  
       // Bind
       $stmt->bindParam(':category', $this->category);
-
+  
       // Execute
-      if($stmt->execute()) {
-        $category_id = $this->conn->lastInsertId();
-        $createdCategory = [
-          'id' => $category_id,
-          'category' => $this->category
-        ];
-        echo json_encode($createdCategory);
-        return true;
+      if ($stmt->execute()) {
+          $category_id = $this->conn->lastInsertId();
+          $createdCategory = [
+              'id' => $category_id,
+              'category' => $this->category
+          ];
+          return $createdCategory;
       } else {
-        echo json_encode(['message' => 'Category Not Created']);
-        return false;
+          return false; // Return false if category is not created
       }
-    }
+  }
 
     // Update category
     public function update() {
