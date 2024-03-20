@@ -17,9 +17,18 @@
     if (!isset($data->category)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
+        // Set the category property
         $category->category = $data->category;
-        $category->id = $data->id;
 
+        // Create the category
         $createdCategory = $category->create();
-        return json_encode($createdCategory);
+
+        // Check if the category was created successfully
+        if ($createdCategory) {
+            // Return JSON response with the created category data
+            echo json_encode($createdCategory);
+        } else {
+            // Handle the case where the category creation failed
+            echo json_encode(['message' => 'Failed to create category']);
+        }
     }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
     include_once '../../config/Database.php';
     include_once '../../models/Quote.php';
@@ -24,5 +24,11 @@
 
         // Create the quote
         $createdQuote = $quote->create();
-        return json_encode($createdQuote);
+
+        // Check if the quote was created successfully
+        if ($createdQuote) {
+            echo json_encode($createdQuote);
+        } else {
+            echo json_encode(['message' => 'Failed to create quote']);
+        }
     }

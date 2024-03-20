@@ -68,20 +68,20 @@
       if (!isset($this->author)) {
           return false; // Return false if author field is not set
       }
-  
+
       $query = 'INSERT INTO ' . $this->table . '
               SET
-                author = :author';
-  
+              author = :author';
+
       // Prepare
       $stmt = $this->conn->prepare($query);
-  
+
       // Clean
       $this->author = htmlspecialchars(strip_tags($this->author));
-  
+
       // Bind
       $stmt->bindParam(':author', $this->author);
-  
+
       // Execute
       if ($stmt->execute()) {
           $author_id = $this->conn->lastInsertId();
@@ -89,13 +89,12 @@
               'id' => $author_id,
               'author' => $this->author
           ];
-          echo json_encode($createdAuthor);
-          return true;
+          return $createdAuthor; // Return the created author data
       } else {
           return false; // Return false if author is not created
       }
-  }
-
+    }
+    
     // Update author
     public function update() {
       // Check if author and id exist

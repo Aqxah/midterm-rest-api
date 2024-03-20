@@ -13,7 +13,6 @@
     // Get Raw Data
     $data = json_decode(file_get_contents("php://input"));
 
-
     if (!isset($data->id)) {
         echo json_encode(['message' => 'No Author Found']);
     } else {
@@ -24,8 +23,7 @@
         if ($deleteAuthor) {
             // Author deleted successfully, return JSON response with deleted ID
             echo json_encode(['id' => $data->id]);
-            return true;
         } else {
-            return false;
+            echo json_encode(['message' => 'Failed to delete author']);
         }   
     }

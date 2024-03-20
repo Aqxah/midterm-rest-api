@@ -135,32 +135,32 @@
       }
     }
 
-    // Delete category
-    public function delete() {
-      // Query
-      $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+  // Delete category
+  public function delete() {
+    // Query
+    $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
-      // Prepare
-      $stmt = $this->conn->prepare($query);
+    // Prepare
+    $stmt = $this->conn->prepare($query);
 
-      // Clean
-      $this->id = htmlspecialchars(strip_tags($this->id));
+    // Clean
+    $this->id = htmlspecialchars(strip_tags($this->id));
 
-      // Bind
-      $stmt->bindParam(':id', $this->id);
+    // Bind
+    $stmt->bindParam(':id', $this->id);
 
-      // Execute
-      if($stmt->execute()) {
+    // Execute
+    if($stmt->execute()) {
         if($stmt->rowCount() > 0) {
             // Category deleted successfully, return JSON response with deleted ID
-            return json_encode(['id' => $this->id]);
+            return ['id' => $this->id];
         } else {
             // No Category found with the provided ID
-            return json_encode(['message' => 'No Category Found']);
+            return ['message' => 'No Category Found'];
         }
     } else {
         // Error occurred during execution
-        return json_encode(['message' => 'Error deleting category']);
+        return ['message' => 'Error deleting category'];
     }
   }
 }

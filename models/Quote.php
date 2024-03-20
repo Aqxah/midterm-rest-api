@@ -280,7 +280,8 @@
 
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
-            return ['message' => 'author_id Not Found']; // Return the message
+            echo json_encode(['message' => 'author_id Not Found']); // Echo the JSON response
+            return false;
         }
 
         // Query to check if the category_id exists in the categories table
@@ -291,7 +292,8 @@
 
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
-            return ['message' => 'category_id Not Found']; // Return the message
+            echo json_encode(['message' => 'category_id Not Found']); // Echo the JSON response
+            return false;
         }
 
         // Proceed with inserting the quote into the quotes table
@@ -321,10 +323,11 @@
                 'author_id' => $this->author_id,
                 'category_id' => $this->category_id
             ];
-            echo json_encode($created_quote);
+            echo json_encode($created_quote); // Echo the JSON response
             return true;
         } else {
-            return ['message' => 'Quote Not Created']; // Return the message
+            echo json_encode(['message' => 'Quote Not Created']); // Echo the JSON response
+            return false;
         }
     }
     

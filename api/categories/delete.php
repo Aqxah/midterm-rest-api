@@ -1,4 +1,4 @@
-<?php 
+<?php
 
     include_once '../../config/Database.php';
     include_once '../../models/Category.php';
@@ -23,8 +23,7 @@
         if ($deleteCategory) {
             // Category deleted successfully, return JSON response with deleted ID
             echo json_encode(['id' => $data->id]);
-            return true;
         } else {
-            return false;
+            echo json_encode(['message' => 'Error deleting category']);
         }   
     }

@@ -17,9 +17,18 @@
     if (!isset($data->author)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
-        $author->id = $data->id;
+        // Set the author property
         $author->author = $data->author;
 
+        // Create the author
         $createdAuthor = $author->create();
-        return json_encode($createdAuthor);
+
+        // Check if the author was created successfully
+        if ($createdAuthor) {
+            // Return JSON response with the created author data
+            echo json_encode($createdAuthor);
+        } else {
+            // Handle the case where the author creation failed
+            echo json_encode(['message' => 'Failed to create author']);
+        }
     }
