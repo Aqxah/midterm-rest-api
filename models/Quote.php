@@ -280,7 +280,7 @@
 
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
-            echo json_encode(['message' => 'author_id Not Found']); // Echo the JSON response
+            echo json_encode(['message' => 'author_id Not Found']);
             return false;
         }
 
@@ -292,7 +292,7 @@
 
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
-            echo json_encode(['message' => 'category_id Not Found']); // Echo the JSON response
+            echo json_encode(['message' => 'category_id Not Found']);
             return false;
         }
 
@@ -323,10 +323,8 @@
                 'author_id' => $this->author_id,
                 'category_id' => $this->category_id
             ];
-            echo json_encode($created_quote); // Echo the JSON response
-            return true;
+            return $created_quote;
         } else {
-            echo json_encode(['message' => 'Quote Not Created']); // Echo the JSON response
             return false;
         }
     }

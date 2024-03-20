@@ -26,7 +26,7 @@
         // Check if the author was created successfully
         if ($createdAuthor) {
             // Return JSON response with the created author data
-            echo json_encode($createdAuthor);
+            echo json_encode(['id' => $data->id]);
         } else {
             // Handle the case where the author creation failed
             echo json_encode(['message' => 'Failed to create author']);

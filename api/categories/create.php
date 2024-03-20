@@ -26,7 +26,7 @@
         // Check if the category was created successfully
         if ($createdCategory) {
             // Return JSON response with the created category data
-            echo json_encode($createdCategory);
+            echo json_encode(['id' => $data->id]);
         } else {
             // Handle the case where the category creation failed
             echo json_encode(['message' => 'Failed to create category']);
