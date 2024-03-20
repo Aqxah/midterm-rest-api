@@ -17,6 +17,7 @@
     if (!isset($data->author)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
+        $author->id = $data->id;
         $author->author = $data->author;
 
         $createdAuthor = $author->create();

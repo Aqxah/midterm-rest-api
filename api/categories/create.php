@@ -18,6 +18,7 @@
         echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
         $category->category = $data->category;
+        $category->id = $data->id;
 
         $createdCategory = $category->create();
         return json_encode($createdCategory);

@@ -16,20 +16,13 @@
     // Check if the required parameters exist
     if (!isset($data->quote) || !isset($data->author_id) || !isset($data->category_id)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
-        exit;
-    }
-
-    // Set the quote properties
-    $quote->quote = $data->quote;
-    $quote->author_id = $data->author_id;
-    $quote->category_id = $data->category_id;
-
-    // Create the quote
-    $createdQuote = $quote->create();
-
-    if ($createdQuote) {
-        // Return JSON response with the created quote data
-        echo json_encode($createdQuote);
     } else {
-        echo json_encode(['message' => 'Failed to create quote']);
+        // Set the quote properties
+        $quote->quote = $data->quote;
+        $quote->author_id = $data->author_id;
+        $quote->category_id = $data->category_id;
+
+        // Create the quote
+        $createdQuote = $quote->create();
+        return json_encode($createdQuote);
     }

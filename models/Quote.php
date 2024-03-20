@@ -321,7 +321,8 @@
                 'author_id' => $this->author_id,
                 'category_id' => $this->category_id
             ];
-            return $created_quote;
+            echo json_encode($created_quote);
+            return true;
         } else {
             return ['message' => 'Quote Not Created']; // Return the message
         }
