@@ -382,6 +382,7 @@
         if ($stmt->execute()) {
             if($stmt->rowCount() === 0) {
                 echo json_encode(['message' => 'No Quotes Found']);
+                return false;
             } else {
                 // Fetch the updated quote data
                 $updatedQuote = [

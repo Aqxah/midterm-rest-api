@@ -23,6 +23,8 @@
         if ($deleteCategory) {
             // Category deleted successfully, return JSON response with deleted ID
             echo json_encode(['id' => $data->id]);
+            return true;
         } else {
+            return false;
         }   
     }
