@@ -89,7 +89,8 @@
               'id' => $author_id,
               'author' => $this->author
           ];
-          return $createdAuthor;
+          echo json_encode($createdAuthor);
+          return true;
       } else {
           return false; // Return false if author is not created
       }

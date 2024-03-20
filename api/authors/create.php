@@ -18,15 +18,7 @@
         echo json_encode(['message' => 'Missing Required Parameters']);
     } else {
         $author->author = $data->author;
+
         $createdAuthor = $author->create();
-    
-        if ($createdAuthor) {
-            $response = [
-                'id' => $createdAuthor['id'],
-                'author' => $createdAuthor['author']
-            ];
-            echo json_encode($response);
-        } else {
-            echo json_encode(['message' => 'Not Created']);
-        }
+        return json_encode($createdAuthor);
     }

@@ -89,7 +89,8 @@
               'id' => $category_id,
               'category' => $this->category
           ];
-          return $createdCategory;
+          echo json_encode($createdCategory);
+          return true;
       } else {
           return false; // Return false if category is not created
       }
