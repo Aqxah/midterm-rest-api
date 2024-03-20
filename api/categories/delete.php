@@ -23,3 +23,5 @@
 
     // Delete
     $category->delete();
+
+    echo json_encode(['id' => $data->id]);

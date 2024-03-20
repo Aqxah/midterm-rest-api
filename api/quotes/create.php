@@ -23,5 +23,15 @@
 
         // Create the quote
         $createdQuote = $quote->create();
-        return json_encode($createdQuote);
+        
+        if ($createdQuote) {
+            echo json_encode([
+                'id' => $createdQuote['id'],
+                'quote' => $createdQuote['quote'],
+                'author_id' => $createdQuote['author_id'],
+                'category_id' => $createdQuote['category_id']
+            ]);
+        } else {
+            echo json_encode(['message' => 'Not Created']);
+        }
     }

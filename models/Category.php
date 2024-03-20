@@ -100,7 +100,7 @@
     // Update category
     public function update() {
       // Check if category and id exist
-      if (empty($this->category) || empty($this->id)) {
+      if (!isset($this->category) || !isset($this->id)) {
           echo json_encode(['message' => 'Missing Required Parameters']);
           return false;
       }

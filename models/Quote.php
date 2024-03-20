@@ -422,8 +422,6 @@
                 echo json_encode(['id' => $this->id]);
                 return true;
             } else {
-                // No quote found with the provided ID
-                echo json_encode(['message' => 'No Quotes Found']);
                 return false;
             } 
         } else {

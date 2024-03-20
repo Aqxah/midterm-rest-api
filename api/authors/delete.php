@@ -23,3 +23,5 @@
 
     // Delete
     $author->delete();
+
+    echo json_encode(['id' => $data->id]);

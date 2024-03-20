@@ -19,5 +19,10 @@
     } else {
         $category->category = $data->category;
         $createdCategory = $category->create();
-    }
-    return json_encode($createdAuthor);
+    
+        if ($createdCategory) {
+            echo json_encode(['id' => $createdCategory['id'], 'category' => $createdCategory['category']]);
+        } else {
+                echo json_encode(['message' => 'Not Created']);
+            }   
+        }

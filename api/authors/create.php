@@ -20,4 +20,9 @@
         $author->author = $data->author;
         $createdAuthor = $author->create();
     }
-    return json_encode($createdAuthor);
+    
+    if ($createdAuthor) {
+        echo json_encode(['id' => $createdAuthor['id'], 'author' => $createdAuthor['author']]);
+    } else {
+            echo json_encode(['message' => 'Not Created']);
+    }   

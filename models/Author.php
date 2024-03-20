@@ -64,7 +64,7 @@
 
     // Create Author
     public function create() {
-      if (empty($this->author) || empty($this->id)) {
+      if (!isset($this->author) || !isset($this->id)) {
         echo json_encode(['message' => 'Missing Required Parameters']);
         return false;
     }
