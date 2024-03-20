@@ -22,6 +22,8 @@
     $author->id = $data->id;
 
     // Delete
-    $author->delete();
-
-    echo json_encode(['id' => $data->id]);
+    if ($author->delete()) {
+        // Author deleted successfully, return JSON response with deleted ID
+        echo json_encode(['id' => $data->id]);
+    } else {
+        }

@@ -272,51 +272,51 @@
             echo json_encode(['message' => 'Missing Required Parameters']);
             return false;
         }
-
+    
         // Query to check if the author_id exists in the authors table
         $authorCheckQuery = "SELECT id FROM authors WHERE id = :author_id";
         $authorCheckStmt = $this->conn->prepare($authorCheckQuery);
         $authorCheckStmt->bindParam(':author_id', $this->author_id);
         $authorCheckStmt->execute();
-
+    
         // Check if the author_id exists in the authors table
         if ($authorCheckStmt->rowCount() === 0) {
             echo json_encode(['message' => 'author_id Not Found']);
             return false;
         }
-
+    
         // Query to check if the category_id exists in the categories table
         $categoryCheckQuery = "SELECT id FROM categories WHERE id = :category_id";
         $categoryCheckStmt = $this->conn->prepare($categoryCheckQuery);
         $categoryCheckStmt->bindParam(':category_id', $this->category_id);
         $categoryCheckStmt->execute();
-
+    
         // Check if the category_id exists in the categories table
         if ($categoryCheckStmt->rowCount() === 0) {
             echo json_encode(['message' => 'category_id Not Found']);
             return false;
         }
-
+    
         // Proceed with inserting the quote into the quotes table
         $query = 'INSERT INTO ' . $this->table . '
                 SET
                     quote = :quote,
                     author_id = :author_id,
                     category_id = :category_id';
-
+    
         // Prepare the SQL statement
         $stmt = $this->conn->prepare($query);
-
+    
         // Clean and bind parameters
         $this->quote = htmlspecialchars(strip_tags($this->quote));
         $stmt->bindParam(':quote', $this->quote);
         $stmt->bindParam(':author_id', $this->author_id);
         $stmt->bindParam(':category_id', $this->category_id);
-
+    
         // Execute the SQL statement
         if ($stmt->execute()) {
             $quote_id = $this->conn->lastInsertId();
-
+    
             // Return created quote
             $created_quote = [
                 'id' => $quote_id,
@@ -324,8 +324,7 @@
                 'author_id' => $this->author_id,
                 'category_id' => $this->category_id
             ];
-            echo json_encode($created_quote);
-            return true;
+            return $created_quote;
         } else {
             echo json_encode(['message' => 'Quote Not Created']);
             return false;

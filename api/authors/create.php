@@ -21,7 +21,11 @@
         $createdAuthor = $author->create();
     
         if ($createdAuthor) {
-            echo json_encode($createdAuthor);
+            $response = [
+                'id' => $createdAuthor['id'],
+                'author' => $createdAuthor['author']
+            ];
+            echo json_encode($response);
         } else {
             echo json_encode(['message' => 'Not Created']);
         }
